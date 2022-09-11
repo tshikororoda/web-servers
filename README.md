@@ -15,12 +15,12 @@
 <a name="windows"></a>
 ![Windows logo](./assets/windows-logo.png "The changes that has been made is successful.")
 
-|    |                                                                                |
-|----|--------------------------------------------------------------------------------|
-| 01 | [ Change _‘localhost’_ to a Domain Name in apache HTTP server ](#domain-name)  |
-| 02 | [ Change document _root directory_ in apache HTTP server ](#change-root)       |
+|    |                                                                                    |
+|----|------------------------------------------------------------------------------------|
+| 01 | [ Change _‘localhost’_ to a Domain Name in apache HTTP server ](#domain-name-w)    |
+| 02 | [ Change document _root directory_ in apache HTTP server ](#change-document-root)  |
 
-<a name="domain-name"></a>
+<a name="domain-name-w"></a>
 ### Change _‘localhost’_ to a Domain Name In Apache HTTP Server
 In this section, we want to change _localhost_ to access our webite/application. In this tutorial we will be using **`XAMPP`** package to install Apache distribution. XAMPP is the most popular PHP development environment. Installing XAMPP package allows us to develop, execute, test, and play around with _web server source code_ on our local machine before we deploy the _source code_ on the _live server_. We can configure and test out our website/application locally, instead of live web server somewhere. XAMPP is an easy to install Apache distribution containing **`MariaDB, PHP, and Perl`**. Just download and start the installer. It's that easy.
 
@@ -72,7 +72,7 @@ _Save the file and restart the Apache Server for the changes to take effect. Do 
 
 *` Last modified: 2022-06-14 time: 19:17PM `*
 
-<a name="change-root"></a>
+<a name="change-document-root"></a>
 ### Change document root directory In Apache HTTP Server
 The _web directory_ is the home of all of our web based application's. `Document Root` on Apache web server is the _location or directory_ where to save files that are the source code of our web application.
 
@@ -134,9 +134,9 @@ _After changes to the `httpd.conf` file is complete, save the file, then restart
 | 01 | [ Install Apache HTTP server ](#install)                                         |
 | 02 | [ Firewall configuration ](#firewall)                                            |
 | 03 | [ Verifying Apache Web Server service ](#verify)                                 |
-| 04 | [ Default welcome page ](#dwp)                                                   |
+| 04 | [ Default welcome page ](#default-welcome-p)                                     |
 | 05 | [ Change _‘localhost’_ to a Domain Name in apache HTTP server ](#domain-name-l)  |
-| 06 | [ Change document _root directory_ in apache HTTP server ]()                     |
+| 06 | [ Change document _root directory_ in apache HTTP server ](#)                     |
 
 <a name="install"></a>
 ### Install Apache HTTP server
@@ -200,16 +200,16 @@ $ hostname –I
 ````
 *` Last modified: 2022-09-10 time: 15:06PM `*
 
-<a name="verify"></a>
+<a name="default-welcome-p"></a>
 ### Default welcome page
 To see apache welcome page as show below, open the web browser. On the browser address bar, typein the IP address to access  or just type localhost. The page below indicates that Apache is working correctly. It also includes some basic information about important Apache files and directory locations.
 
-![Default apache welcome page](./assets/default-welcome-page.png "The changes that has been made is successful. ")
+![Default apache welcome page](./assets/default-welcome-page.PNG "The changes that has been made is successful. ")
 
 *` Last modified: 2022-09-10 time: 2:52PM `*
 
 <a name="domain-name-l"></a>
-### Change ‘localhost’ to a Domain Name In Apache HTTP Server
+### Change _‘localhost’_ to a Domain Name In Apache HTTP Server
 
 In this section, we want to change localhost to access our website/application. In this tutorial we will be using Apache. Apache is used to host PHP script. The process is similar for windows user as shown above with some minor changes. To install apache, open terminal and execute the command below. To open terminal you can simple press "CTRL + ALT + T".
 
