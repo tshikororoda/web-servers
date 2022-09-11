@@ -129,14 +129,14 @@ _After changes to the `httpd.conf` file is complete, save the file, then restart
 <a name="linux"></a>
 ![Ubuntu](./assets/ubuntu-logo.png "The changes that has been made is successful.")
 
-|    |                                                                                  |
-|----|----------------------------------------------------------------------------------|
-| 01 | [ Install Apache HTTP server ](#install)                                         |
-| 02 | [ Firewall configuration ](#firewall)                                            |
-| 03 | [ Verifying Apache Web Server service ](#verify)                                 |
-| 04 | [ Default welcome page ](#default-welcome-p)                                     |
-| 05 | [ Change _‘localhost’_ to a Domain Name in apache HTTP server ](#domain-name-l)  |
-| 06 | [ Change document _root directory_ in apache HTTP server ](#)                     |
+|    |                                                                                      |
+|----|--------------------------------------------------------------------------------------|
+| 01 | [ Install Apache HTTP server ](#install)                                             |
+| 02 | [ Firewall configuration ](#firewall)                                                |
+| 03 | [ Verifying Apache Web Server service ](#verify)                                     |
+| 04 | [ Default welcome page ](#default-welcome-p)                                         |
+| 05 | [ Change _‘localhost’_ to a Domain Name in apache HTTP server ](#domain-name-l)      |
+| 06 | [ Change document _root directory_ in apache HTTP server ](#change-document-root-l)  |
 
 <a name="install"></a>
 ### Install Apache HTTP server
@@ -196,7 +196,7 @@ Feb 28 00:00:23 ubuntu-db-mgmnt systemd[1]: Reloading The Apache HTTP Server.
 ```
 As confirmed by this output above, the service has started successfully. Another approach to verify if `Apache is running fine` is to request a web page from the Apache web server. To do so, find your IP address.
 ````
-$ hostname –I
+$ hostname -I
 ````
 *` Last modified: 2022-09-10 time: 15:06PM `*
 
@@ -213,11 +213,7 @@ To see apache welcome page as show below, open the web browser. On the browser a
 
 In this section, we want to change localhost to access our website/application. In this tutorial we will be using Apache. Apache is used to host PHP script. The process is similar for windows user as shown above with some minor changes. To install apache, open terminal and execute the command below. To open terminal you can simple press "CTRL + ALT + T".
 
-We can configure Apache Server in _XAMPP_ to serve up our web pages as though they were actually located on _http://www.our-web-site.com_ instead of **_localhost_**. <br />
-This is the two steps process:
-
-We can configure Apache HTTP Server in Linux to serve up our web pages as though they were actually located on _http://www.our-web-site.com_ instead of **_localhost_**. <br />
-This is the two steps process:
+We can configure Apache HTTP Server in Linux to serve up our web pages as though they were actually located on _http://www.our-web-site.com_ instead of **_localhost_**. This is the two steps process:
 
 + **First**    : We have to redirect the web site/application name (url) to our host computer.
 + **Second**   : Then, we get the Apache to redirect the web site address to our source code directory.
@@ -344,4 +340,6 @@ sudo apache2ctl configtest
 ```
 *` Last modified: 2022-09-10 time: 22:31PM `*
 
+<a name="change-document-root-l"></a>
+### Change document root directory In Apache HTTP Server
 ---
