@@ -162,16 +162,16 @@ sudo ufw enable
 ````
 *list all application profile*
 ````
-$ sudo ufw app list
+sudo ufw app list
 ````
 *utilize/allow "Apache full"*
 ````
-$ sudo ufw allow ‘Apache full’
+sudo ufw allow ‘Apache full’
 ````
 <a name="verify"></a>
 ### Verifying Apache Web Server service
 ````
-$ sudo systemctl status apache2
+sudo systemctl status apache2
 ````
 ```js
 ● apache2.service - The Apache HTTP Server
@@ -196,7 +196,7 @@ Feb 28 00:00:23 ubuntu-db-mgmnt systemd[1]: Reloading The Apache HTTP Server.
 ```
 As confirmed by this output above, the service has started successfully. Another approach to verify if `Apache is running fine` is to request a web page from the Apache web server. To do so, find your IP address.
 ````
-$ hostname -I
+hostname -I
 ````
 *` Last modified: 2022-09-10 time: 15:06PM `*
 
@@ -341,5 +341,8 @@ sudo apache2ctl configtest
 *` Last modified: 2022-09-10 time: 22:31PM `*
 
 <a name="change-document-root-l"></a>
-### Change document root directory In Apache HTTP Server
+### Change **document root** directory In Apache HTTP Server
+
+The web directory is the home of all of our web based application's. Document Root on Apache web server is the location or directory where to save files that are the source code of our web application. By default, Ubuntu doesn't allow access through the web brower to any file apart of those located in /var/www/html. So if our web application is using a web document root located elsewhere, we are required to whitelist it.  
+
 ---
