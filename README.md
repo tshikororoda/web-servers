@@ -343,6 +343,23 @@ sudo apache2ctl configtest
 <a name="change-document-root-l"></a>
 ### Change **document root** directory In Apache HTTP Server
 
-The web directory is the home of all of our web based application's. Document Root on Apache web server is the location or directory where to save files that are the source code of our web application. By default, Ubuntu doesn't allow access through the web brower to any file apart of those located in /var/www/html. So if our web application is using a web document root located elsewhere, we are required to whitelist it.  
+The web directory is the home of all of our web based application's. Document Root on Apache web server is the location or directory where source code files are saved of our web application. By default, Ubuntu doesn't allow access through the web browser to any file apart of those source code files located in `/var/www/html`. So if our web application is using a web document root located elsewhere, we are required to whitelist it. `/var/www/html` is a default document root.  
 
+Now, to change the _location_ of the `Document Root directory` to another document root configuration we have to open the file _`apache2.conf`_, usually the apache2 file located in the apache2 folder in Server Root directory. Since the _`Server Root`_ on my computer is _`/etc/apache2`_, the _`apache2.conf`_ file located in _`/etc/apache2/apache2.conf`_.
+
+1. Let's quickly Locate _`apache2.conf file`_: This will be _`C:/etc/apache2/apache2.conf`_
+2. Open _`apache2.conf`_ to Edit using text editor <br />
+
+  `Don’t use word processor because it can mess up the file when you save it`.<br />
+
+  After _`apache2.conf`_ file is open, look for the string `Directory` on this file. We will find other or default configuration of Document Root in Apache web server. To change the location or to add new document root directory to another, `We simply place our configuration of the root we want here`.
+
+```
+<Directory /workspace/dev/>
+    Options Indexes FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
+
+```
 ---
