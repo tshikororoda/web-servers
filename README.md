@@ -162,7 +162,8 @@ To Install PHP build on our system, is three steps process:
   The main PHP build configuration file is named `php.ini`. This file doesn’t exist initially, so we have to *`copy and paste`* php.ini-development and *rename* it to php.ini. This PHP’s configuration file contain default configuration which provides a development setup which reports all PHP errors and warnings. However, PHP does allow some setting to be set within a PHP script using method called ini_set().
 
   As we built our project, we will enable any required `extensions or PHP module`. This will depend on the libraries we need to use for functional requirements. The extensions below will aren't enabled by default. This will provides suitable development environment or production environment for most of our web applications:
-```
+  
+```php
   extension=curl
   extension=gd
   extension=mbstring
@@ -192,16 +193,20 @@ In the same file, also change the DirectoryIndex setting to load index.php inste
     DirectoryIndex index.php index.html
 </IfModule>
 ```
-When done editting, save `httpd.conf` file and test our configuration from a `cmd` command line. We use `httpd -t` command test if there is errors with our configuration. if `Syntax OK` displayed, it means configuration has been done correctly. If all went well, restart Apache with httpd. To execute httpd command any where on windows system, Add c:\Wamp\Apache24\bin to the path environment.
+When done editting, save `httpd.conf` file and test our configuration from a `cmd` command line. We use `httpd -t` command test if there is errors with our configuration. if `Syntax OK` displayed, it means configuration has been done correctly. If all went well, restart Apache with httpd. To execute `httpd command` any where on Windows system, Add `c:\Wamp\Apache24\bin` to the path environment.
 
 *Open a cmd command prompt start Apache with:*
 
 ```
-httpd -t # Test if no errors
-httpd -w # Start the server
+httpd -t
+httpd -w
 
-# To stop, press CTRL + c
 ```
+|          |                              |   
+|----------|------------------------------|
+| httpd -t | Test if no errors            |
+| httpd -w | Start the server             |
+| CTRL + c | To stop server from running  |
 
 ##### Testing PHP file
 Let's create a PHP file called `index.php` in Apache’s web directory root folder at C:\Wamp\Apache24\htdocs and add the following PHP source code:
