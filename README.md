@@ -162,7 +162,7 @@ To Install PHP build on our system, is three steps process:
   The main PHP build configuration file is named `php.ini`. This file doesn’t exist initially, so we have to *`copy and paste`* php.ini-development and *rename* it to php.ini. This PHP’s configuration file contain default configuration which provides a development setup which reports all PHP errors and warnings. However, PHP does allow some setting to be set within a PHP script using method called ini_set().
 
   As we built our project, we will enable any required `extensions or PHP module`. This will depend on the libraries we need to use for functional requirements. The extensions below will aren't enabled by default. This will provides suitable development environment or production environment for most of our web applications:
-  
+
 ```php
   extension=curl
   extension=gd
@@ -198,12 +198,14 @@ When done editting, save `httpd.conf` file and test our configuration from a `cm
 *Open a cmd command prompt start Apache with:*
 
 ```
+httpd -v
 httpd -t
 httpd -w
 
 ```
 |          |                              |   
 |----------|------------------------------|
+| httpd -v | Version                      |
 | httpd -t | Test if no errors            |
 | httpd -w | Start the server             |
 | CTRL + c | To stop server from running  |
