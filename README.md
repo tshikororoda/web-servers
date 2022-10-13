@@ -214,7 +214,7 @@ Let's create a PHP file called `index.php` in Apache’s web directory root fold
 ```
 *Open a web browser and enter your server address: http://localhost/. A “PHP version” page will appear showing the various PHP and Apache configuration settings.*
 
-*` Last modified: 2022-06-16 time: 13:03PM `*
+*` Last modified: 2022-10-13 time: 12:09PM `*
 
 ---
 
