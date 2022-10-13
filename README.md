@@ -19,6 +19,7 @@
 |----|------------------------------------------------------------------------------------|
 | 01 | [ Change _‘localhost’_ to a Domain Name in apache HTTP server ](#domain-name-w)    |
 | 02 | [ Change document _root directory_ in apache HTTP server ](#change-document-root)  |
+| 03 | [ How to run PHP as an Apache module ](#run-PHP-as-an-Apache-module)               |
 
 <a name="domain-name-w"></a>
 ### Change _‘localhost’_ to a Domain Name In Apache HTTP Server
@@ -125,9 +126,102 @@ _After changes to the `httpd.conf` file is complete, save the file, then restart
 
 *` Last modified: 2022-06-16 time: 13:03PM `*
 
+<a name="run-PHP-as-an-Apache-module"></a>
+##### How to run PHP as an Apache module
+##### PHP
+In this tutorial, we'll be configuring PHP to run as an Apache module. However, PHP have *`built-in web server`* which can be launched by simply navigating into source code directory and run the PHP executable command with an -S parameter to set the localhost port.
+```php
+cd \workspace\test
+php -S localhost:8001
+```
+PHP content file can be accessed in a browser at http://localhost:8001.
+
+If we are `running multiple sites` using `PHP built-in web server`, we will have to specify different port for each site:
+```
+/site1 - > php -S localhost:8001
+/site2 - > php -S localhost:8002
+/site3 - > php -S localhost:8003
+```
+
+To Install PHP build on our system, is three steps process:
+
+1. Step 1: Download PHP build Thread Safe(TS) zip package. This PHP build is for single process web servers.
+   Windows PHP builds can be download from [PHP builds](https://www.php.net/downloads.php)
+
+2. Step 2: Extract PHP build Thread Safe(TS) zip package
+  PHP can be installed anywhere on our system. This means we can extract PHP build files at any directory of our choice. In this tutorial, we will extract PHP build files in `c:/Wamp/php`
+  ```
+    cd c:\
+    mkdir Wamp
+    cd wamp
+    mkdir php
+    cd php
+  ```
+3. Step 3: PHP build configuration setting may be set.
+
+  The main PHP build configuration file is named `php.ini`. This file doesn’t exist initially, so we have to *`copy and paste`* php.ini-development and *rename* it to php.ini. This PHP’s configuration file contain default configuration which provides a development setup which reports all PHP errors and warnings. However, PHP does allow some setting to be set within a PHP script using method called ini_set().
+
+  As we built our project, we will enable any required `extensions or PHP module`. This will depend on the libraries we need to use for functional requirements. The extensions below will aren't enabled by default. This will provides suitable development environment or production environment for most of our web applications:
+```
+  extension=curl
+  extension=gd
+  extension=mbstring
+  extension=pdo_mysql
+```
+To ensure Windows system can find the executable PHP file .exe, we need to add the PATH environment variable. Check [Microsoft documentation](#) on how to set system and user `“environment variable”`.
+```
+PATH: c:/Wamp/php
+```
+##### Apache
+To install Apache, we download the latest Win64 ZIP file from [Apache lounge](https://www.apachelounge.com/download/) and extract it to any directory of our choice. Our directory will be. `c:\Wamp\Apache24`.
+
+To configure PHP as an Apache HTTP server module, we ensure that Apache HTTP server isn’t running, if was started, we have to stop it from running. To perform this configuration we open and edit main Apache HTTP server configuration file called `httpd.conf`. According to our installation PATH in this tutorial, the location of this file is: c:\Apache24\conf\ httpd.conf. Add the following lines to the bottom of the file to set PHP as an Apache module:
+```
+# PHP7 module
+# Setting PHP 7 module as an Apache module
+
+PHPIniDir "c:/Wamp/php"
+LoadModule php7_module "C:/php/php7apache2_4.dll"
+AddType application/x-httpd-php .php
+
+```
+
+In the same file, also change the DirectoryIndex setting to load index.php instead of index.html when it can be found.
+```
+<IfModule dir_module>
+    DirectoryIndex index.php index.html
+</IfModule>
+```
+When done editting, save `httpd.conf` file and test our configuration from a `cmd` command line. We use `httpd -t` command test if there is errors with our configuration. if `Syntax OK` displayed, it means configuration has been done correctly. If all went well, restart Apache with httpd. To execute httpd command any where on windows system, Add c:\Wamp\Apache24\bin to the path environment.
+
+*Open a cmd command prompt start Apache with:*
+
+```
+httpd -t # Test if no errors
+httpd -w # Start the server
+
+# To stop, press CTRL + c
+```
+
+##### Testing PHP file
+Let's create a PHP file called `index.php` in Apache’s web directory root folder at C:\Wamp\Apache24\htdocs and add the following PHP source code:
+```php
+<!DOCTYPE html>
+  <?php
+
+  print phpinfo();
+
+```
+*Open a web browser and enter your server address: http://localhost/. A “PHP version” page will appear showing the various PHP and Apache configuration settings.*
+
+*` Last modified: 2022-06-16 time: 13:03PM `*
+
 ---
+
 <a name="linux"></a>
 ![Ubuntu](./assets/ubuntu-logo.png "The changes that has been made is successful.")
+
+LAMP - stands for Linux, Apache, MySQL and PHP.
 
 |    |                                                                                      |
 |----|--------------------------------------------------------------------------------------|
