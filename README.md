@@ -1,11 +1,8 @@
 # Web servers
 
-|    |    TABLE OF CONTENTS                         |
-|----|----------------------------------------------|
-| 1. | [ Apache HTTP Server ](#apache)              |
-| 2. | [ Glassfish ](#2)                            |
-| 3. | [ Tomcat ](#3)                               |
-| 4. | [ IIS (Internet Information Services) ](#4)  |
+| NO |    TABLE OF CONTENTS                           |
+|----|----------------------------------------------- |
+| 1. | [ Apache HTTP Server ](#apache)                |
 
 <a name="apache"></a>
 ## Apache HTTP Server
@@ -15,7 +12,7 @@
 <a name="windows"></a>
 ![Windows logo](./assets/windows-logo.png "The changes that has been made is successful.")
 
-|    |                                                                                    |
+| NO |                                                                                    |
 |----|------------------------------------------------------------------------------------|
 | 01 | [ Change _‘localhost’_ to a Domain Name in apache HTTP server ](#domain-name-w)    |
 | 02 | [ Change document _root directory_ in apache HTTP server ](#change-document-root)  |
@@ -127,7 +124,7 @@ _After changes to the `httpd.conf` file is complete, save the file, then restart
 *` Last modified: 2022-06-16 time: 13:03PM `*
 
 <a name="run-PHP-as-an-Apache-module"></a>
-##### How to run PHP as an Apache module
+##### Run PHP as an Apache module
 ##### PHP
 In this tutorial, we'll be configuring PHP to run as an Apache module. However, PHP have *`built-in web server`* which can be launched by simply navigating into source code directory and run the PHP executable command with an -S parameter to set the localhost port.
 ```php
@@ -163,17 +160,24 @@ To Install PHP build on our system, is three steps process:
 
   As we built our project, we will enable any required `extensions or PHP module`. This will depend on the libraries we need to use for functional requirements. The extensions below will aren't enabled by default. This will provides suitable development environment or production environment for most of our web applications:
 
-```php
+ ```php
   extension=curl
   extension=gd
   extension=mbstring
   extension=pdo_mysql
+ ```
+ To ensure Windows system can find the executable PHP file .exe, we need to add the PATH environment variable: `PATH: c:/Wamp/php`.
+
+ + In Search, search for and then select: System (Control Panel)
+ + Click the **`Advanced system settings`** link.
+ + Click Environment Variables. In the section **`System Variables`** find the PATH environment variable and select it. Click **`Edit`**. If the PATH environment variable does not exist, **`click New`**.
+ + In the **`Edit System Variable (or New System Variable)`** window, specify the value of the PATH environment variable. Click OK. Close all remaining windows by clicking **`OK`**.
+ + Re-open Command prompt window, and run PHP executable command with an -v parameter below that allows to check the php version install.
 ```
-To ensure Windows system can find the executable PHP file .exe, we need to add the PATH environment variable. Check [Microsoft documentation](#) on how to set system and user `“environment variable”`.
+php -v
 ```
-PATH: c:/Wamp/php
-```
-##### Apache
+
+##### Apache lounge
 To install Apache, we download the latest Win64 ZIP file from [Apache lounge](https://www.apachelounge.com/download/) and extract it to any directory of our choice. Our directory will be. `c:\Wamp\Apache24`.
 
 To configure PHP as an Apache HTTP server module, we ensure that Apache HTTP server isn’t running, if was started, we have to stop it from running. To perform this configuration we open and edit main Apache HTTP server configuration file called `httpd.conf`. According to our installation PATH in this tutorial, the location of this file is: c:\Apache24\conf\ httpd.conf. Add the following lines to the bottom of the file to set PHP as an Apache module:
@@ -203,7 +207,7 @@ httpd -t
 httpd -w
 
 ```
-|          |                              |   
+| COMMAND  |    DEFINITION                |   
 |----------|------------------------------|
 | httpd -v | Version                      |
 | httpd -t | Test if no errors            |
@@ -212,18 +216,24 @@ httpd -w
 
 ##### Testing PHP file
 Let's create a PHP file called `index.php` in Apache’s web directory root folder at C:\Wamp\Apache24\htdocs and add the following PHP source code:
-```php
-<!DOCTYPE html>
-  <?php
 
-  print phpinfo();
+```php
+
+  echo  phpinfo();
 
 ```
-*Open a web browser and enter your server address: http://localhost/. A “PHP version” page will appear showing the various PHP and Apache configuration settings.*
+_Open a web browser and enter your server address: http://localhost/. A “PHP version” page will appear showing the various PHP and Apache configuration settings._
 
 *` Last modified: 2022-10-13 time: 12:09PM `*
 
----
+<a name="Tomcat"></a>
+# Apache Tomcat
+in this tutorial, we're going to show how to install Tomcat, how to configure a user for the Tomcat Manager and create an SSL certificate to allow Tomcat to serve `HTTPS content`.
+
+Apache Tomcat is a `web server` and `servlet/JSP container` that is used to deploy and serve Java web applications.
+
+
+***
 
 <a name="linux"></a>
 ![Ubuntu](./assets/ubuntu-logo.png "The changes that has been made is successful.")
@@ -441,26 +451,4 @@ sudo apache2ctl configtest
 ```
 *` Last modified: 2022-09-10 time: 22:31PM `*
 
-<a name="change-document-root-l"></a>
-### Change **document root** directory In Apache HTTP Server
-
-The web directory is the home of all of our web based application's. Document Root on Apache web server is the location or directory where source code files are saved of our web application. By default, Ubuntu doesn't allow access through the web browser to any file apart of those source code files located in `/var/www/html`. So if our web application is using a web document root located elsewhere, we are required to whitelist it. `/var/www/html` is a default document root.  
-
-Now, to change the _location_ of the `Document Root directory` to another document root configuration we have to open the file _`apache2.conf`_, usually the apache2 file located in the apache2 folder in Server Root directory. Since the _`Server Root`_ on my computer is _`/etc/apache2`_, the _`apache2.conf`_ file located in _`/etc/apache2/apache2.conf`_.
-
-1. Let's quickly Locate _`apache2.conf file`_: This will be _`C:/etc/apache2/apache2.conf`_
-2. Open _`apache2.conf`_ to Edit using text editor <br />
-
-  `Don’t use word processor because it can mess up the file when you save it`.<br />
-
-  After _`apache2.conf`_ file is open, look for the string `Directory` on this file. We will find other or default configuration of Document Root in Apache web server. To change the location or to add new document root directory to another, `We simply place our configuration of the root we want here`.
-
-```
-<Directory /workspace/dev/>
-    Options Indexes FollowSymLinks
-    AllowOverride None
-    Require all granted
-</Directory>
-
-```
 ---
