@@ -4,14 +4,12 @@
 <!--
 
   DN  - domain name
-  cdn - change domain name
-  cdr - change directory name
 -->
 
 ## Table of Contents
-+ [ Change _localhost_ to a DN (domain name) ](#cdn)
-  + [Re-directing _url_ to the computer](#cdna)
-  + [Getting Apache to *redirect* the url to our source code directory](#cdnb)
++ [ Change _localhost_ to a DN _(domain name)_ ](#cdn)
+  + [Re-directing _`url`_ to IP address](#firstly_redirecting_url)
+  + [Apache *redirect* the _`url`_ to source code directory](#secondly_redirecting_url)
 + [ Change document _root dr_ in Apache HTTP server ](#cdr)
 + [ How to run _PHP_ as an _Apache module_ ](#PHPasApachemodule)
   + [PHP built-in web server](#builtinserver)
@@ -30,127 +28,140 @@
 ***
 
 <a name="cdn"></a>
-### `Apache HTTP Server:` change *localhost* to a *DN*
-`In this section`, we want to change _localhost_ to access our  website / application. In this section we will use **`XAMPP`** package to install _`Apache distribution`_. _`XAMPP is the most popular PHP development environment`_. Installing XAMPP package allows us to _develop, execute, test, and play_ around with _web server source code_ on our local machine before we deploy the _source code_ on the _live server_. We can _configure and test_ out our website / application locally, instead of live web server somewhere. XAMPP is an easy way to install `Apache distribution`. It will install **`MariaDB, PHP, and Perl`**. [DOWNLOAD](https://www.apachefriends.org/download.html) and _start the installer_.
+### `Apache HTTP Server:` Change localhost to a *domain name*
+`In this section`, we want to change _`localhost/project_name`_ to access our  website / application. In this section we will use **`XAMPP`** package to install _`Apache` distribution being configered for us_. _`XAMPP` is the most popular PHP development environment_. Installing XAMPP package allows us to _`develop`, `execute`, `test`, and `play`_ around with web server source code on our local machine before we _`deploy`_ the _source code_ on the _live server_. We can _configure_ and _test_ out our website / application locally, instead of  using live web server somewhere. XAMPP is an easy way to install `Apache` distribution. It will install `MariaDB`, `PHP`, and `Perl`.
 
-_We can configure Apache Server in `XAMPP` to serve up our web pages as though they were actually located on `http://www.our-web-site.com` instead of `localhost`._
+[DOWNLOAD](https://www.apachefriends.org/download.html) and _start the installer_.
 
-This is the two steps process. First, we have to _redirect_ website / application _url_ to our computer. Secondly, we then get the Apache to *`redirect`* the _url_ to our source code _directory_.
+_We can configure Apache Server in `XAMPP` to serve up our web pages as though they were actually located on `http://www.tshikororda.react` instead of `localhost/tshikororda.react` if tshikororda.react was project name in htdocs folder._
 
-[Re-directing _url_ to the computer](#cdna)
-[Getting Apache to *redirect* the url to our source code directory](#cdnb)
+This is the two steps process. _First_, we have to _redirect_ website or application _url_ to our computer. _Secondly_, we then get the Apache to *`redirect`* the _url_ to our source code _directory_.
 
-<a name="cdna"></a>
-##### Re-directing _url_ to the computer
++ [Re-directing _url_ to the IP adress](#firstly_redirecting_url)
++ [Apache *re-direct* the url to source code directory](#secondly_redirecting_url)
 
-When we _type_ and _search_ the website / application *`name/address/url`* into the web browser URL field _(Let’s say you type: http://www.our-web-site.com)_, the _web browser_ sends the provided _url_ to a _Domain Name Server_ that looks-up for text named _http://www.our-web-site.com_ and returns the _Internet Protocol (IP)_ address for it. Then, web browser connects to the _IP address_ it finds.
+<a name="firstly_redirecting_url"></a>
+### Re-directing _url_ to the computer
 
-Before our web browser *`queries`* _DNS_. *Firstly* checks a file called *`hosts`* on our computer. If the requested *`url`* is found, then the web browser uses the *`IP address`* found in the file.
+When we _type_ and _search_ the website / application *`name/address/url`* into the web browser URL field _(Let’s say we type: http://tshikororoda.react)_, the _web browser_ sends the provided _url_ to a _Domain Name Server_ that looks-up for text named _http://tshikororoda.react_ and returns the _Internet Protocol (IP)_ address for it. Then, web browser connects to the _IP address_ it finds.
 
-To re-direct _url_ to the computer:
-+ Let's Locate our `hosts` file.
+Before our web browser *`queries`* _DNS_. *Firstly* checks a file called *`hosts`* on our computer. If the requested *`url`* is found, then the web browser uses the *`IP address`* found in the file. To re-direct _url_ to the local computer:
+
+##### Let's Locate our `hosts` file.
 ```sh
- C:\windows\system32\drivers\etc
+
+c:\windows\system32\drivers\etc
+
 ```
 
-+ Editing host file
-  *Open the file with text editor like Notepad++.
-  `Don’t use word processor because it can mess up the file when you save it`*.
+##### Editing host file
 
-+ Add `domain name(s) and IP address` to *redirect* to.
-Each line must begin with the *IP address: 127.0.0.1*, then follow the *name of the domain* which we wish to _redirect_ to the _IP address_. **We can only enter one name per line**. Addresses names like _http://our-site.com and http://www.our-site.com_ are different and each need a separate line.  
+  *Open* the file with _text editor_ like Notepad++, Notepad, Atom. _Don’t use word processor because it can mess up the file when you save it_. To edit this file you will need administrative rights.
+
+  + `Domain name(s):` Add domain name(s) and IP address to *redirect* to locally on our computer. Each line must begin with the IP address: *127.0.0.1*, then follow the *name of the domain* which we wish to _redirect_ to the _IP address_. _We can only enter one name per line_. Addresses names like _http://tshikororoda.react and http://www.tshikororoda.react_ are different and each need a separate line.
 
   ```sh
-  127.0.0.1 our-site.com
-  127.0.0.1 www.our-site.com
+
+    127.0.0.1 tshikororoda.react
+    127.0.0.1 www.tshikororoda.react
 
   ```
 
-<a name="cdnb"></a>
-##### Getting Apache to *redirect* the url to our source code directory
-+ Locate the *`httpd-vhosts.conf`* file.
+<a name="secondly_redirecting_url"></a>
+### Apache *re-edirect* the url to source code directory
+
+##### Locate the *`httpd-vhosts.conf`* file.
+
 ```sh
-C:\xampp\apache\conf\extra
+
+c:\xampp\apache\conf\extra
+
 ```
-+ Open the file using a _plain text file editor_ like Notepad++.
-  `:warning: **Warning:** Don’t use word processor because it can mess-up the file when you save it`*.
+
+_Open_ `httpd-vhosts.conf` file using a plain text file editor like Notepad or Notepad++. `Warning:` Don’t use word processor because it can mess-up the file when you save it.
+
 ```sh
+
 <VirtualHost *:80>
     ServerAdmin admin@our-site.com
     DocumentRoot "C:/xampp/htdocs/dev-our-site.com"
-    ServerName  our-site.com
-    ServerAlias www.our-site.com
+    ServerName  tshikororoda.react
+    ServerAlias www.tshikororoda.react
 
     # Other directives here
 </VirtualHost>
+
 ```
+
 |                    | Description                                          |
 | ------------------ | ---------------------------------------------------- |
 | *DocumentRoot* | *add the path where ur website / application source code is located. We can use an absolute path / relative path.*              |
 | *ServerName*   | *add the name of the domain*                         |
 | *ServerAlias*  | *We can add as many alternate domains (separated by spaces) as you like that are supposed to resolve to this virtual host.*     |
 
-  *Remember that http://www.our-domain-site.com is different from http://our-domain-site.com, but we want them to be on the same web server.*
+  *Remember that http://www.tshikororoda.react is different from http://tshikororoda.react, but we want them to be on the same web server.*
 
   _Save the file and restart the Apache Server for the changes to take effect. Do this by clicking on the Stop button on the XAMPP control panel and then clicking on the Start button. We could also just reboot the computer, but that is overkill_.
 
-*` Last modified: 2023-07-08 time: 14:47PM `*
+*` Last modified: 2024-02-14 time: 18:21PM `*
 
 <a name="cdr"></a>
 ### `Apache HTTP Server:` change document root directory
-The *web directory* is the home of all of our web based application's. `Document Root` on Apache web server is the _location / directory_ where to save files that are the source code of our website / application.
+The _web directory_ is the home of all of our web based application's. `Document Root` on Apache web server is the _location / directory_ where to save files that are the source code of our website / application.
 
-Now, to change the location of the `Document Root directory` to another document root configuration we have to open the file `httpd.conf`, usually the httpd.conf file located in the conf folder in Server Root directory. Since the `Server Root` on my computer is `C:/xampp/apache`, the `httpd.conf` file located in `C:/xampp/apache/conf/httpd.conf`.
+Now, to change the location of the `Document Root` directory to another document root configuration we have to open the file `httpd.conf`, usually the httpd.conf file located in the conf folder in Server Root directory. Since the `Server Root` on my computer is `C:/xampp/apache`, the `httpd.conf` file located in `C:/xampp/apache/conf/httpd.conf`.
 
-+ Locate `httpd.conf file`: This will be `C:\xampp\apache\conf`
-+ Open `httpd.conf` to edit using text editor.
-  `Don’t use word processor because it can mess up the file when you save it.`
+##### Locate `httpd.conf` file.
+This will be `C:\xampp\apache\conf`. _Open_ `httpd.conf` to edit using text editor. _Don’t use word processor because it can mess up the file when you save it._
 
-  After `httpd.conf` file is open, look for the string `DocumentRoot` on this file. We will find the configuration of Document Root in Apache web server. To change the location of the document root directory to another, `We simply replace the value of the document root configuration`.
+After `httpd.conf` file is open, look for the string `DocumentRoot` on this file. We will find the configuration of Document Root in Apache web server. To change the location of the document root directory to another, We simply replace the value of the document root configuration.
 
-  For instance: the location of the document root on my computer is in `C:/XAMPP/htdocs`, then we want to change it to `c:/workspace`, then we simply replace the line `DocumentRoot "C:/XAMPP/htdocs" to DocumentRoot "c:/workspace"` and the line `<Directory "C:/xampp/htdocs"> to <Directory "c:/workspace">`.
+_For instance: the location of the document root on my computer is in `c:/XAMPP/htdocs`, then we want to change it to `c:/workspace`, then we simply replace the line `DocumentRoot "c:/XAMPP/htdocs"` to `DocumentRoot "c:/workspace"` and the line `<Directory "C:/xampp/htdocs">` to `<Directory "c:/workspace">`._
 
-  ```sh
-    cd c:/
-    mkdir workspace
-  ```
-  ```sh
-  DocumentRoot "C:/workspace"
-  <Directory "C:/workspace">
-      #
-      # Possible values for the Options directive are "None", "All",
-      # or any combination of:
-      #   Indexes Includes FollowSymLinks SymLinksifOwnerMatch ExecCGI MultiViews
-      #
-      # Note that "MultiViews" must be named *explicitly* --- "Options All"
-      # doesn't give it to you.
-      #
-      # The Options directive is both complicated and important.  Please see
-      # http://httpd.apache.org/docs/2.4/mod/core.html#options
-      # for more information.
-      #
-      Options Indexes FollowSymLinks Includes ExecCGI
+```sh
 
-      #
-      # AllowOverride controls what directives may be placed in .htaccess files.
-      # It can be "All", "None", or any combination of the keywords:
-      #   AllowOverride FileInfo AuthConfig Limit
-      #
-      AllowOverride All
+cd c:/
+mkdir workspace
 
-      #
-      # Controls who can get stuff from this server.
-      #
-      Require all granted
-  </Directory>
+```
 
-  ```
+```sh
+DocumentRoot "C:/workspace"
+<Directory "C:/workspace">
+    #
+    # Possible values for the Options directive are "None", "All",
+    # or any combination of:
+    #   Indexes Includes FollowSymLinks SymLinksifOwnerMatch ExecCGI MultiViews
+    #
+    # Note that "MultiViews" must be named *explicitly* --- "Options All"
+    # doesn't give it to you.
+    #
+    # The Options directive is both complicated and important.  Please see
+    # http://httpd.apache.org/docs/2.4/mod/core.html#options
+    # for more information.
+    #
+    Options Indexes FollowSymLinks Includes ExecCGI
 
-*After making changes to `httpd.conf` file is done, save the file, then restart Apache. To test whether the change is successful, we can open a web browser and visit http://localhost. If the results rendered by the web browser appears as shown in the image below, the changes made has been successful.*
+    #
+    # AllowOverride controls what directives may be placed in .htaccess files.
+    # It can be "All", "None", or any combination of the keywords:
+    #   AllowOverride FileInfo AuthConfig Limit
+    #
+    AllowOverride All
+
+    #
+    # Controls who can get stuff from this server.
+    #
+    Require all granted
+</Directory>
+
+```
+
+After making changes to `httpd.conf` file is done, save the file, then restart Apache. To test whether the change is successful, we can open a web browser and visit http://localhost. If the results rendered by the web browser appears as shown in the image below, the changes made has been successful.
 
 ![New document root](../assets/successful.png "The changes that has been made is successful. ")
 
-*` Last modified: 2023-07-08 time: 15:18PM `*
+*` Last modified: 2024-02-14 time: 18:51PM `*
 
 <a name="PHPasApachemodule"></a>
 ### `Apache HTTP Server:` Run PHP as an Apache module
