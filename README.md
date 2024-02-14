@@ -1,12 +1,7 @@
-# Web servers
+# HTTP / HTTPS Web servers
 
-| NO |    TABLE OF CONTENTS                           |
-|----|----------------------------------------------- |
-| 1. | [ Apache HTTP Server ](#apache)                |
-
-<a name="apache"></a>
-## Apache HTTP Server
-- [ Windows ](#windows)
-- [ Linux   ](#linux)
+### Apache HTTP Server
++ [ Windows ](https://github.com/tshikororoda/web-servers/tree/main/src/windows/apacheHTTPServer.md)
++ [ Linux   ](https://github.com/tshikororoda/web-servers/tree/main/src/linux/apacheHTTPServer.md)
 
 ***

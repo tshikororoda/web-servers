@@ -152,20 +152,22 @@ Now, to change the location of the `Document Root directory` to another document
 *` Last modified: 2023-07-08 time: 15:18PM `*
 
 <a name=""></a>
-### `Apache HTTP Server:` run PHP as an Apache module
+### `Apache HTTP Server:` Run PHP as an Apache module
 
-+ [PHP build](#PHPbuild)
++ [PHP build Thread Safe(TS)](#PHPbuild)
 + [HTTP apache lounge](#apachelounge)
 + [Testing PHP file](#testphpfile)
 
-In this section, we'll be configuring PHP to run as an Apache module. However, PHP have *`built-in web server`* which can be launched by simply navigating into source code directory and run the *PHP executable command* with an `-S parameter` to set the localhost port.
+###### `PHP:` built-in web server
+*In this section*, we'll be configuring PHP to run as an `Apache module`. However, PHP have *`built-in web server`* which can be launched by simply navigating into source code directory and run the *PHP executable command* with an `-S parameter` to set the localhost and port number.
 
 ```sh
 
 mkdir dev-test
 cd dev-test
 
-php -S localhost:8001 # start php built-in web server
+# Start php built-in web server
+php -S localhost:8001
 
 ```
 PHP content file can be accessed in a browser at [*http://localhost:8001*]( http://localhost:8001)
@@ -179,19 +181,17 @@ If we are `running multiple sites` using `PHP built-in web server`, we will have
   php -S localhost:8003 # /site3
 
 ```
-
+###### `PHP:` Build Thread Safe(TS)
 To Install PHP build Thread Safe(TS) on our system: three steps process:
 
-+ `Step 1:` Download `PHP build Thread Safe(TS) zip package`. This PHP build is for single process web servers. Windows PHP builds can be download from [PHP builds](https://www.php.net/downloads.php)
++ `Step 1:` Download `PHP build Thread Safe (TS) zip package`. This PHP build is for single process web servers. Windows PHP builds can be download from [PHP builds](https://www.php.net/downloads.php)
 
-+ `Step 2:` Extract PHP build Thread Safe(TS) zip package. PHP can be installed anywhere on our system. This means we can extract PHP build files at any directory of our choice. In this section, we will extract PHP build files in `c:/devtools/php/8x`
++ `Step 2:` Extract PHP build Thread Safe (TS) zip package. PHP can be installed anywhere on our system. This means we can extract PHP build files at any directory of our choice. In this section, we will extract PHP build files in `c:/devtools/php/8.3.2`
 
   ```sh
-
-  mkdir php
-  cd php
-  mkdir 8x # php version
-  cd 8x
+# 8.3.2 is php version
+  mkdir 8.3.2
+  cd 8.3.2
 
   ```
 + `Step 3:` PHP build configuration setting.
@@ -200,46 +200,77 @@ To Install PHP build Thread Safe(TS) on our system: three steps process:
 
   As we built our project, we will enable any required `php extensions / module`. This will depend on the libraries we need to use for `functional requirements`. The extensions below aren't enabled by default. This will provides suitable development environment or production environment for most of our web applications:
 
+  ##### *configure php.ini*
+  *Now* open `php.ini` file and remove the semicolon `;` from the `extension_dir = "ext"` setting.
+  _Usually_, we would want to have `cURL`, `gd`, `mbstring`, `fileinfo`, and `pdo_sqlite` enabled. Search and remove the semicolon `;` for any extensions we need to start.
+
   ```sh
+    # remove ; )
+
+    extension_dir = "ext"
 
     extension=curl
     extension=gd
+    extension=fileinfo
     extension=mbstring
     extension=pdo_mysql
 
   ```
 
-  To ensure Windows system can find the executable PHP file .exe, we need to add the PATH environment variable: `PATH: c:/devtools/php/8x`.
-    + In Search, search for and then select: System (Control Panel)
-    + Click the *`Advanced system settings`* link.
-    + Click Environment Variables. In the section *`System Variables`* find the PATH environment variable and select it. Click *`Edit`*. If the PATH environment variable does not exist, *`click New`*.
-    + In the *`Edit System Variable (/ New System Variable)`* window, specify the value of the PATH environment variable. Click OK. Close all remaining windows by clicking *`OK`*.
-    + Re-open *command prompt* window, and *run* PHP executable *command* with -v parameter below that allows us to check the *php version* install.
+##### `PHP:` System variable
+To ensure Windows system can find the executable PHP file .exe, we need to add the PATH environment variable: `PATH: c:/devtools/php/8.3.2`.
++ In Search, search for and then select: System (Control Panel)
++ Click the *`Advanced system settings`* link.
++ Click Environment Variables. In the section *`System Variables`* find the PATH environment variable and select it. Click *`Edit`*. If the PATH environment variable does not exist, *`click New`*.
++ In the *`Edit System Variable (/ New System Variable)`* window, specify the value of the PATH environment variable. Click OK. Close all remaining windows by clicking *`OK`*.
++ Re-open *command prompt* window, and *run* PHP executable *command* with `-v parameter` below that allows us to check the *php version* install.
 
-    ```sh
-    # check php version installed
-    php -v
-
-    ```
+```sh
+  # check php version installed
+  php -v
+```
 
 <a name="apachelounge"></a>
 ##### HTTP Apache lounge
 To install HTTP Apache, we download the latest Win64 ZIP file from [Apache lounge](https://www.apachelounge.com/download/) and *extract* it to any directory of our choice. Our directory will be. `c:\devtools\apache`.
 
+There are three ways to set up PHP to work with Apache 2.x on Windows. PHP can be run as a: `handler`, as a `CGI`, or under `FastCGI`.
+
 To configure PHP as an Apache HTTP server module, we ensure that Apache HTTP server isn’t running, if was started, we have to stop it from running. To perform this configuration we open and edit main Apache HTTP server configuration file called `httpd.conf`. According to our installation PATH in this section, the location of this file is: `c:\devtools\apache\conf\httpd.conf`. Add the following lines to the bottom of the `Apache httpd.conf configuration` file to set PHP as an Apache module.
 
+###### Installing PHP as an Apache handler.
+
 ```sh
+# The name of the module for PHP 8.x.x is php_module
+# For PHP 7.X.X the module is php7_module
 
-# ----| PHP - Module setup |-----
-
-#   PHP7 php7apache2_4.dll
-#   PHP8 php8apache2_4.dll
-
-AddType application/x-httpd-php .php
-LoadModule php_module "c:/devtools/php/8x/php8apache2_4.dll"
+LoadModule php_module "c:/devtools/php/8.3.2/php8apache2_4.dll"
 # LoadModule php7_module "c:/devtools/php/7.x/Win64/php7apache2_4.dll"
-PHPIniDir "c:/devtools/php/8x"
+<FilesMatch \.php$>
+    SetHandler application/x-httpd-php
+</FilesMatch>
 
+# AddType can also be used in place of using
+# FilesMatch with SetHandler.
+#
+# AddType application/x-httpd-php .php
+
+# configure the path to php.ini
+PHPIniDir "c:/devtools/php/8.3.2"
+
+```
+
+###### Configure Apache to run PHP as FastCGI
+
+```sh
+LoadModule fcgid_module modules/mod_fcgid.so
+# configure the path to php.ini
+FcgidInitialEnv PHPRC "c:/devtools/php/8.3.2"
+<FilesMatch \.php$>
+    SetHandler fcgid-script
+</FilesMatch>
+
+FcgidWrapper "c:/devtools/php/8.3.2/php-cgi.exe" .php
 ```
 
 In the same file, also change the `DirectoryIndex` setting to load `index.php` instead of `index.html` when it can be found.
@@ -274,11 +305,11 @@ httpd -w
 ##### Testing PHP file
 Let's create a PHP file called `index.php` in Apache’s web directory root folder at `c:\devtools\apache\htdocs` and add the following PHP source code:
 
+###### Add phpinfo() on index.php
 ```sh
-
 <?php
 
-print phpinfo();
+echo phpinfo();
 
 ```
 ![phpinfo() 8.1.12 version](../assets/8112.jpg "HTTP Apache lounge is successful installed.")
@@ -290,39 +321,62 @@ print phpinfo();
 <a name="multiplePHPbuild"></a>
 ### `Apache HTTP Server:` Setup multiple PHP build versions
 
+##### `PHP:` Download TS (thread safe) version
 In this section, we will install two different versions of PHP build. PHP 8.1.12 build has already been installed on our previous section above where we configer `php build thread safez(TS)` to run as a module.
 <a name="downloadtsv"></a>*Firstly,* we’ll need to [*download TS (thread safe) version*](https://windows.php.net/downloads/releases/archives/) to install `PHP 5.6.9 build` to work along-side with `PHP 8.1.12 build`. Each `PHP version build` installed will be `configured` on *per-project directory requirements*.
 
-Before downloading `PHP build version`, let's check if we have `Thread Safety` enabled in our current *PHP* installation by executing `phpinfo()` build-in function inside our `C:\devtools\apache\htdocs\index.php` directory as shown above. *Now* search for `Thread Safety` and *verify* if we have enabled it or not.
+Before downloading `PHP build version`, let's check if we have `Thread Safety` enabled in our current *PHP* installation by executing `phpinfo()`
+build-in function inside our `C:\devtools\apache\htdocs\index.php` directory as shown on the previous section above. *Now* search for `Thread Safety` and *verify* if we have enabled it or not. *If we have `Thread Safety enabled`, then we should download the PHP build version that contain `Thread Safety` in it's name. And opposite will be the case with,
+if we have `Non-Thread Safety enabled`, you should download the version that contains `Non-Thread Safety` in it's name.*
 
-*If we have `Thread Safety enabled`, then we should download the PHP build version that contain `Thread Safety` in it's name. And opposite will be the case with, if we have `Non-Thread Safety enabled`, you should download the version that contains `Non-Thread Safety` in it's name.*
-
-*Once* the [download finishes](https://windows.php.net/downloads/releases/archives/), we go to `C:\devtools\php` directory and create a new `PHP folder` called 5x. *Then*, we open the archive PHP build version we’ve downloaded and *extract* everything in this folder: 5x.
+*Once* the [download finishes](https://windows.php.net/downloads/releases/archives/), we go to `C:\devtools\php` directory and create a new `PHP folder` called 5x. *Then*, we open the archive PHP build TS (thread safe) version we’ve downloaded and *extract* everything in this folder: 5x.
 
 ```sh
-
-mkdir 5x
+# Create directory to extract PHP build TS (thread safe).
+mkdir 5.6.9
 
 ```
 
 <a name="configphp.ini"></a>
 ##### `PHP:` *configure php.ini*
-In the same directory 5x, locate the php.ini-development file. _Copy, paste and rename_ it to php.ini. Open the php.ini file and remove the semicolon `;` from the `extension_dir = "ext"` setting
-Usually, you would want to have `cURL, FTP, fileinfo, MySQL, MySQLi, openssl, and pdo_sqlite enabled`. Search and remove the semicolon `;` for any extensions we need to start.
+In the same directory 5x, locate the `php.ini-development` file. _Copy, paste and rename_ it to php.ini. Open the `php.ini` file and remove the semicolon `;` from the `extension_dir = "ext"` setting.
+_Usually_, we would want to have `cURL`, `FTP`, `fileinfo`, `MySQL`, `MySQLi`, `openssl`, and `pdo_sqlite` enabled. Search and remove the semicolon `;` for any extensions we need to start.
+
+```sh
+# remove ; )
+extension_dir = "ext"
+```
 
 <a name="apacheconfiguration"></a>
 #### Apache configuration
 <a name="defaultPHPbuild"></a>
-###### Setup default PHP build version
-Everything looks good, it’s time to configer our default `PHP 8.1.12 build`. Go to `C:\devtools\apache\conf\extra` to locate file named `httpd-default.conf`. Peferably at the end of  `httpd-default.conf` file, add the following chunk of source code below:
+###### Set default PHP build (thread safe) version
+Everything looks good, it’s time to configure our default `PHP 8.1.12 build`.  Go to `C:\devtools\apache\conf` to locate file named `httpd.conf`. Enable Various default settings. It's not enable by default. Search and remove #.
 
 ```sh
+# Remove # )
+Include conf/extra/httpd-default.conf
+```
 
-# ----| PHP - Module setup (php8apache2_4.dll) |-----
+Now, go to `C:\devtools\apache\conf\extra` to locate file named `httpd-default.conf`. Preferably at the end of  `httpd-default.conf` file, add the following chunk of source code below:
 
-AddType application/x-httpd-php .php
+```sh
+# Installing PHP as an Apache handler.
+# The name of the module for PHP 8.x.x is php_module.
+# For PHP 7.X.X the module is php7_module.
+
 LoadModule php_module "c:/devtools/php/8x/php8apache2_4.dll"
-PHPIniDir "c:/devtools/php/8x"
+# LoadModule php7_module "c:/devtools/php/7.x/Win64/php7apache2_4.dll"
+AddType application/x-httpd-php .php
+
+# FilesMatch with SetHandler can also be used in place of using AddType
+#
+# <FilesMatch \.php$>
+#    SetHandler application/x-httpd-php
+# </FilesMatch>
+
+# configure the path to php.ini
+PHPIniDir "c:/devtools/php/8.3.2"
 
 ```
 *Open command prompt to stop, test and start Apache to see if changes are successful:*
@@ -334,88 +388,107 @@ httpd -w
 
 ```
 <a name="FastCGI"></a>
-###### Fast CGI
-Apache in itself can’t run multiple PHP buld versions. So, what we’re going to do is update it to use `Fast CGI` server API instead of Apache 2.0 handler. We can [*download*](https://www.apachelounge.com/download/) Fast CGI. We will download `mod_fcgid-2.3.10-win64-VS16.zip` based on our apache architecture. Once downloaded, extract the zip file and copy `mod_fcgid.so` file to `c:\devtools\apache\modules` directory. And enable fcgid_module on the main Apache HTTP server configuration file called `httpd.conf` as shown below.
+###### Fast-CGI
+##### `PHP:` Download FastCGI
+Apache in itself can’t run multiple PHP buld versions. So, what we’re going to do is update it to use `Fast CGI` server API instead of Apache 2.0 handler. We can [*download*](https://www.apachelounge.com/download/) Fast CGI. We will download `mod_fcgid-2.3.10-win64-VS16.zip` based on our apache architecture. Once downloaded, extract the zip file and copy `mod_fcgid.so` file to `c:\devtools\apache\modules` directory. And enable fcgid_module on the main Apache HTTP server configuration file called `httpd.conf` as shown below. Search and remove the Pound sign #
 
-```
+```sh
+# Remove # or add it if isn't available.
 LoadModule fcgid_module modules/mod_fcgid.so
 
 ```
-
-Now, to let Apache know that we have a new PHP build 5.6.9 version ready to be used. We open and edit main Apache HTTP server configuration file called `httpd.conf`. According to our installation PATH in this section, the location of this file is: `c:\devtools\apache\conf\httpd.conf`. Add the following lines source code to the bottom of the file. This basically tells Apache where to find our specific new PHP version.
+###### Configure apache to use PHP build (thread safe) version 5.6.9
+*Now*, to let Apache know that we have a new PHP build (thread safe) version 5.6.9 version ready to be used. We open and edit main Apache HTTP server configuration file called `httpd.conf`. According to our installation PATH in this section, the location of this file is: `c:\devtools\apache\conf\httpd.conf`. _Add_ the source code bellow to the bottom of the file. This will tell Apache where to find our specific PHP build (thread safe) version.
 
 ```sh
+
+# Configure Apache to run PHP as FastCGI
 # PHP 5.6.9
+# Not default PHP build (thread safe) version in this case.
 
-ScriptAlias /php5x "C:/devtools/php/5x"
+ScriptAlias /php5.6.9 "C:/devtools/php/5.6.9"
+Action application/x-httpd-php5.6.9-cgi /php5.6.9/php-cgi.exe
 
-Action application/x-httpd-php5x-cgi /php5x/php-cgi.exe
-
-<Directory "C:/devtools/php/5x">
+<Directory "C:/devtools/php/5.6.9">
     AllowOverride None
     Options None
     Require all denied
+
     <Files "php-cgi.exe">
         Require all granted
     </Files>
 
-	SetEnv PHPRC "C:/devtools/php/5x"
-
+    SetEnv PHPRC "C:/devtools/php/5.6.9"
 </Directory>
 
 ```
 
 <a name="usePHPbuild5.6.9v"></a>
-#### `Test project:` configure to use PHP build 5.6.9v
-*Now* we have to tell Apache that `Project test` will use PHP build 5.6.9 version. *Open* `c:\devtools\apache\conf\httpd.conf` and Add the source code to the bottom of the file. This basically tells Apache which PHP build version to use for `test project` directory.
+#### Test project
 
+Now, in every project directory that we want to use PHP build (thread safe) version 5.6.9 we must include the code below on our virtualhost configuration on `c:\devtools\apache\conf\extra\httpd-vhosts.conf`.
 ```sh
 
-# Project test use PHP build 5.6.9
-
-<Directory "C:\devtools\apache\htdocs\test">
-
-    UnsetEnv PHPRC
-
-    <FilesMatch "\.php$">
-        SetHandler application/x-httpd-php5x-cgi
-    </FilesMatch>
-</Directory>
+UnsetEnv PHPRC
+<FilesMatch "\.php$">
+    SetHandler application/x-httpd-php5.6.9-cgi
+</FilesMatch>
 
 ```
 
 <a name="svhosts"></a>
-#### `Test project:` Setup vhosts
-*Open* `c:\devtools\apache\conf\extra\httpd-vhosts.conf` and Add the source code to the bottom of the file.
+#### `Test project:` Setting up virtual host
 
-```SH
+`httpd-vhosts.conf` is not it's not enable by default. Go to `C:\devtools\apache\conf` to locate file named `httpd.conf`. Search and remove #.
+```sh
+# Virtual hosts
+Include conf/extra/httpd-vhosts.conf
 
-<VirtualHost test.local:8080>
+```
+*Then open* `c:\devtools\apache\conf\extra\httpd-vhosts.conf` and Add the source code below at the bottom of the file.
+
+```sh
+
+<VirtualHost test.local:80>
     DocumentRoot "C:\devtools\apache\htdocs\test"
     ServerName test.local
+    ServerAlias www.test.local
     <Directory "C:\devtools\apache\htdocs\test">
         Allow from all
         Require all granted
-        Options Indexes
+        Options Indexes # FollowSymLinks Includes ExecCGI
         AllowOverride All
     </Directory>
+    UnsetEnv PHPRC
+    <FilesMatch "\.php$">
+        SetHandler application/x-httpd-php5.6.9-cgi
+    </FilesMatch>
 </VirtualHost>
 
 ```
 
-*Now,* go to `C:\devtools\apache\htdocs` and create test project directory called `test` and `index.php` file, then add `phpinfo()` build-in function on index.php file as shown below:
+*Now,* go to `C:\devtools\apache\htdocs` and create project directory called `test` and file called `index.php`, then add `phpinfo()` build-in function on index.php file as shown below:
+
+```sh
+
+mkdir test
+cd test
+touch index.php
+
+```
+
+###### Add phpinfo() on index.php
 
 ```sh
 <?php
 
- print phpinfo();
+ echo phpinfo();
 
 ```
 
-*Open*
-+ [http://localhost:8080/test](http://localhost:8080/test) => PHP build 5.6.9
-+ [http://localhost:8080](http://localhost:8080/)  => PHP build 8.1.12
++ [http://localhost/test](http://localhost/test) -> PHP build 5.6.9
++ [http://localhost](http://localhost:8080/)  -> PHP build 8.1.12
 
 ![phpinfo() 5.6.9 version](../assets/569.jpg "HTTP Apache lounge is successful installed.")
 
-*` Last modified: 2023-07-10 time: 18:25PM `*
+*` Last modified: 2024-02-04 time: 18:28PM `*
