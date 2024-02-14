@@ -189,11 +189,12 @@ To Install PHP build Thread Safe(TS) on our system: three steps process:
 + `Step 2:` Extract PHP build Thread Safe (TS) zip package. PHP can be installed anywhere on our system. This means we can extract PHP build files at any directory of our choice. In this section, we will extract PHP build files in `c:/devtools/php/8.3.2`
 
   ```sh
-# 8.3.2 is php version
+  # 8.3.2 is php version
   mkdir 8.3.2
   cd 8.3.2
 
   ```
+  
 + `Step 3:` PHP build configuration setting.
 
   The main PHP build configuration file is named `php.ini`. This file doesn’t exist initially, so we have to *copy and paste* `php.ini-development` and *rename* it to `php.ini`. This PHP’s configuration file contain default configuration which provides a development setup which reports all PHP errors and warnings. However, PHP does allow some setting to be set within a PHP script using method called `ini_set()`.
