@@ -7,10 +7,10 @@
 -->
 
 ## Table of Contents
-+ [ Change _localhost_ to a DN _(domain name)_ ](#cdn)
++ [ Change _`localhost/project_name`_ to a DN _(domain name)_ ](#domain_name)
   + [Re-directing _`url`_ to IP address](#firstly_redirecting_url)
   + [Apache *redirect* the _`url`_ to source code directory](#secondly_redirecting_url)
-+ [ Change document _root dr_ in Apache HTTP server ](#cdr)
++ [ Change document _root dr_ in Apache HTTP server ](#change_document_root)
 + [ How to run _PHP_ as an _Apache module_ ](#PHPasApachemodule)
   + [PHP built-in web server](#builtinserver)
   + [PHP build](#PHPbuild)
@@ -27,9 +27,9 @@
 
 ***
 
-<a name="cdn"></a>
-### `Apache HTTP Server:` Change localhost to a *domain name*
-`In this section`, we want to change _`localhost/project_name`_ to access our  website / application. In this section we will use **`XAMPP`** package to install _`Apache` distribution being configered for us_. _`XAMPP` is the most popular PHP development environment_. Installing XAMPP package allows us to _`develop`, `execute`, `test`, and `play`_ around with web server source code on our local machine before we _`deploy`_ the _source code_ on the _live server_. We can _configure_ and _test_ out our website / application locally, instead of  using live web server somewhere. XAMPP is an easy way to install `Apache` distribution. It will install `MariaDB`, `PHP`, and `Perl`.
+<a name="domain_name"></a>
+### Change _`localhost/project_name`_ to a *domain name*
+`Apache HTTP Server:` In this section, we want to change _`localhost/project_name`_ to access our  website / application. In this section we will use **`XAMPP`** package to install _`Apache` distribution being configered for us_. _`XAMPP` is the most popular PHP development environment_. Installing XAMPP package allows us to _`develop`, `execute`, `test`, and `play`_ around with web server source code on our local machine before we _`deploy`_ the _source code_ on the _live server_. We can _configure_ and _test_ out our website / application locally, instead of  using live web server somewhere. XAMPP is an easy way to install `Apache` distribution. It will install `MariaDB`, `PHP`, and `Perl`.
 
 [DOWNLOAD](https://www.apachefriends.org/download.html) and _start the installer_.
 
@@ -56,16 +56,16 @@ c:\windows\system32\drivers\etc
 
 ##### Editing host file
 
-  *Open* the file with _text editor_ like Notepad++, Notepad, Atom. _Don’t use word processor because it can mess up the file when you save it_. To edit this file you will need administrative rights.
+*Open* the file with _text editor_ like Notepad++, Notepad, Atom. _Don’t use word processor because it can mess up the file when you save it_. To edit this file you will need administrative rights.
 
-  + `Domain name(s):` Add domain name(s) and IP address to *redirect* to locally on our computer. Each line must begin with the IP address: *127.0.0.1*, then follow the *name of the domain* which we wish to _redirect_ to the _IP address_. _We can only enter one name per line_. Addresses names like _http://tshikororoda.react and http://www.tshikororoda.react_ are different and each need a separate line.
+`Domain name(s):` Add domain name(s) and IP address to *redirect* to locally on our computer. Each line must begin with the IP address: *127.0.0.1*, then follow the *name of the domain* which we wish to _redirect_ to the _IP address_. _We can only enter one name per line_. Addresses names like _http://tshikororoda.react and http://www.tshikororoda.react_ are different and each need a separate line.
 
-  ```sh
+```sh
 
-    127.0.0.1 tshikororoda.react
-    127.0.0.1 www.tshikororoda.react
+127.0.0.1 tshikororoda.react
+127.0.0.1 www.tshikororoda.react
 
-  ```
+```
 
 <a name="secondly_redirecting_url"></a>
 ### Apache *re-edirect* the url to source code directory
@@ -83,20 +83,24 @@ _Open_ `httpd-vhosts.conf` file using a plain text file editor like Notepad or N
 ```sh
 
 <VirtualHost *:80>
-    ServerAdmin admin@our-site.com
-    DocumentRoot "C:/xampp/htdocs/dev-our-site.com"
+    ServerAdmin admin@tshikororoda.react
+    DocumentRoot "C:/xampp/htdocs/tshikororoda.react"
     ServerName  tshikororoda.react
     ServerAlias www.tshikororoda.react
-
-    # Other directives here
+    <Directory "C:/xampp/htdocs/tshikororoda.react">
+        Allow from all
+        Require all granted
+        Options Indexes FollowSymLinks Includes ExecCGI
+        AllowOverride All
+    </Directory>
 </VirtualHost>
 
 ```
 
 |                    | Description                                          |
 | ------------------ | ---------------------------------------------------- |
-| *DocumentRoot* | *add the path where ur website / application source code is located. We can use an absolute path / relative path.*              |
-| *ServerName*   | *add the name of the domain*                         |
+| *DocumentRoot* | *Add the path where ur website / application source code is located. We can use an absolute path / relative path.*              |
+| *ServerName*   | *Add the name of the domain*                         |
 | *ServerAlias*  | *We can add as many alternate domains (separated by spaces) as you like that are supposed to resolve to this virtual host.*     |
 
   *Remember that http://www.tshikororoda.react is different from http://tshikororoda.react, but we want them to be on the same web server.*
@@ -105,9 +109,9 @@ _Open_ `httpd-vhosts.conf` file using a plain text file editor like Notepad or N
 
 *` Last modified: 2024-02-14 time: 18:21PM `*
 
-<a name="cdr"></a>
-### `Apache HTTP Server:` change document root directory
-The _web directory_ is the home of all of our web based application's. `Document Root` on Apache web server is the _location / directory_ where to save files that are the source code of our website / application.
+<a name="change_document_root"></a>
+### Change _`document root`_ directory
+`Apache HTTP Server:` The _web directory_ is the home of all of our web based application's. `Document Root` on Apache web server is the _location / directory_ where to save files that are the source code of our website / application.
 
 Now, to change the location of the `Document Root` directory to another document root configuration we have to open the file `httpd.conf`, usually the httpd.conf file located in the conf folder in Server Root directory. Since the `Server Root` on my computer is `C:/xampp/apache`, the `httpd.conf` file located in `C:/xampp/apache/conf/httpd.conf`.
 
