@@ -13,7 +13,8 @@
   + [Re-directing _url_ to the computer](#cdna)
   + [Getting Apache to *redirect* the url to our source code directory](#cdnb)
 + [ Change document _root dr_ in Apache HTTP server ](#cdr)
-+ [ How to run _PHP_ as an _Apache module_ ](#rPHPasApachemodule)
++ [ How to run _PHP_ as an _Apache module_ ](#PHPasApachemodule)
+  + [PHP built-in web server](#builtinserver)
   + [PHP build](#PHPbuild)
   + [HTTP apache lounge](#apachelounge)
   + [Testing PHP file](#testphpfile)
@@ -151,14 +152,16 @@ Now, to change the location of the `Document Root directory` to another document
 
 *` Last modified: 2023-07-08 time: 15:18PM `*
 
-<a name=""></a>
+<a name="PHPasApachemodule"></a>
 ### `Apache HTTP Server:` Run PHP as an Apache module
 
++ [PHP built-in web server](#builtinserver)
 + [PHP build Thread Safe(TS)](#PHPbuild)
 + [HTTP apache lounge](#apachelounge)
 + [Testing PHP file](#testphpfile)
 
-###### `PHP:` built-in web server
+<a name="builtinserver"></a>
+###### `PHP:` Built-in web server
 *In this section*, we'll be configuring PHP to run as an `Apache module`. However, PHP have *`built-in web server`* which can be launched by simply navigating into source code directory and run the *PHP executable command* with an `-S parameter` to set the localhost and port number.
 
 ```sh
@@ -181,6 +184,7 @@ If we are `running multiple sites` using `PHP built-in web server`, we will have
   php -S localhost:8003 # /site3
 
 ```
+<a name="PHPbuild"></a>
 ###### `PHP:` Build Thread Safe(TS)
 To Install PHP build Thread Safe(TS) on our system: three steps process:
 
@@ -194,7 +198,7 @@ To Install PHP build Thread Safe(TS) on our system: three steps process:
   cd 8.3.2
 
   ```
-  
+
 + `Step 3:` PHP build configuration setting.
 
   The main PHP build configuration file is named `php.ini`. This file doesn’t exist initially, so we have to *copy and paste* `php.ini-development` and *rename* it to `php.ini`. This PHP’s configuration file contain default configuration which provides a development setup which reports all PHP errors and warnings. However, PHP does allow some setting to be set within a PHP script using method called `ini_set()`.
